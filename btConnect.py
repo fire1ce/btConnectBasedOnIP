@@ -30,7 +30,7 @@ def timerInterval(sc):
         subprocess.run(
             [edifierConnectCommand], shell=True)
 
-    if currentIP == atStation and edifierStatus == '0':
+    if currentIP == atStation and currentIP == lastIP and edifierStatus == '0':
         print("Same IP Not Connected")
         print("lastIP is: ", lastIP)
         print("currentIP is: ", currentIP)
