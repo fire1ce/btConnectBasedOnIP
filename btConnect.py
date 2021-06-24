@@ -46,8 +46,8 @@ def timerInterval(sc):
 
     lastIP = currentIP
 
-    s.enter(5, 1, timerInterval, (sc,))
+    s.enter(20, 1, timerInterval, (sc,))
 
 
-s.enter(5, 1, timerInterval, (s,))
+s.enter(20, 1, timerInterval, (s,))
 s.run()
