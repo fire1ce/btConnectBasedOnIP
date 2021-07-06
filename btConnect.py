@@ -32,7 +32,6 @@ def timerInterval(sc):
         print("Current IP is: ", currentIP)
         subprocess.run(
             [edifierDisconnectCommand], shell=True)
-    print("Loop")
 
     s.enter(20, 1, timerInterval, (sc,))
 
