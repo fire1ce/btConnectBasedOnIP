@@ -22,14 +22,13 @@ def timerInterval(sc):
     edifierStatus = checkConnectedBT.stdout.strip()
 
     if currentIP == atStation and edifierStatus == '0':
-        print("At station, Connecting")
+        print("At station, connecting. Current IP is: ", currentIP)
         print("Current IP is: ", currentIP)
         subprocess.run(
             [edifierConnectCommand], shell=True)
 
     if currentIP != atStation and edifierStatus == '1':
-        print("left station, Disconecting")
-        print("Current IP is: ", currentIP)
+        print("left station - disconecting. Current IP is: ", currentIP)
         subprocess.run(
             [edifierDisconnectCommand], shell=True)
 
