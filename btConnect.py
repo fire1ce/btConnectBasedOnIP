@@ -23,7 +23,6 @@ def timerInterval(sc):
 
     if currentIP == atStation and edifierStatus == '0':
         print("At station, connecting. Current IP is: ", currentIP)
-        print("Current IP is: ", currentIP)
         subprocess.run(
             [edifierConnectCommand], shell=True)
 
