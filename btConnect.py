@@ -3,7 +3,7 @@ import time
 import sched
 import subprocess
 atStation = '192.168.100.75'
-ifconfigCommand = "ifconfig en13 | grep 'inet ' | awk '{print $2}'"
+ifconfigCommand = "ifconfig en12 | grep 'inet ' | awk '{print $2}'"
 edifierStatusCommand = "blueutil --is-connected '04-fe-a1-a2-fe-f8'"
 edifierConnectCommand = "blueutil --connect '04-fe-a1-a2-fe-f8'"
 edifierDisconnectCommand = "blueutil --disconnect '04-fe-a1-a2-fe-f8'"
