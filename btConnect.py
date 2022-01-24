@@ -1,38 +1,41 @@
+from threading import Timer
+from subprocess import run
 
-import time
-import sched
-import subprocess
-atStation = '192.168.100.75'
-ifconfigCommand = "ifconfig en12 | grep 'inet ' | awk '{print $2}'"
-edifierStatusCommand = "blueutil --is-connected '04-fe-a1-a2-fe-f8'"
-edifierConnectCommand = "blueutil --connect '04-fe-a1-a2-fe-f8'"
-edifierDisconnectCommand = "blueutil --disconnect '04-fe-a1-a2-fe-f8'"
+# To Find out the Devices ID run: blueutil --connected
+BT_device_ID = "'04-fe-a1-a2-fe-f8'"
+# Must be static IP
+stationIP = "192.168.100.50"
+# uses ifconfig to print all the IPV4 Addresses from all the interfaces
+getIPv4Address = "ifconfig | grep 'inet ' | awk '{print $2}'"
+# blueutil commands
+blueutil_is_connected = f"blueutil --is-connected {BT_device_ID}"
+blueutil_connect = f"blueutil --connect {BT_device_ID}"
+blueutil_disconnect = f"blueutil --disconnect {BT_device_ID} --wait-disconnect {BT_device_ID}"
 
-s = sched.scheduler(time.time, time.sleep)
+print("Started BT-Connect")
+# Thread loop to run every defined time in seconds
+def runEvery():
+    Timer(20.0, runEvery).start()
+    # Class That returns True of the Ip Maching from Interfaces
+    def atStation():
+        IPList = run([getIPv4Address], shell=True, text=True, capture_output=True).stdout.strip().split("\n")
+        ## Debug - prints the list of the IPs from ifconfig command
+        # print(IPList)
+        if (stationIP) in IPList:
+            return True
+
+    # Returns 1 if BT Device connected 0 if disconnected
+    BT_Connection = run([blueutil_is_connected], shell=True, text=True, capture_output=True).stdout.strip()
+    # Sets true/false to "atStationStatus" every run
+    atStationStatus = atStation()
+
+    if atStationStatus and BT_Connection == "0":
+        print("At station, connecting.")
+        run([blueutil_connect], shell=True)
+
+    elif not atStationStatus and BT_Connection == "1":
+        print("left station - disconnecting.")
+        run([blueutil_disconnect], shell=True)
 
 
-def timerInterval(sc):
-
-    getCurrentIP = subprocess.run(
-        [ifconfigCommand], shell=True, text=True, capture_output=True)
-    currentIP = getCurrentIP.stdout.strip()
-
-    checkConnectedBT = subprocess.run(
-        [edifierStatusCommand], shell=True, text=True, capture_output=True)
-    edifierStatus = checkConnectedBT.stdout.strip()
-
-    if currentIP == atStation and edifierStatus == '0':
-        print("At station, connecting. Current IP is: ", currentIP)
-        subprocess.run(
-            [edifierConnectCommand], shell=True)
-
-    if currentIP != atStation and edifierStatus == '1':
-        print("left station - disconecting. Current IP is: ", currentIP)
-        subprocess.run(
-            [edifierDisconnectCommand], shell=True)
-
-    s.enter(20, 1, timerInterval, (sc,))
-
-
-s.enter(20, 1, timerInterval, (s,))
-s.run()
+runEvery()
