@@ -13,16 +13,20 @@ blueutil_connect = f"blueutil --connect {BT_device_ID}"
 blueutil_disconnect = f"blueutil --disconnect {BT_device_ID} --wait-disconnect {BT_device_ID}"
 
 print("Started BT-Connect")
+
+
+def atStation():
+    IPList = run([getIPv4Address], shell=True, text=True, capture_output=True).stdout.strip().split("\n")
+    ## Debug - prints the list of the IPs from ifconfig command
+    # print(IPList)
+    if (stationIP) in IPList:
+        return True
+
+
 # Thread loop to run every defined time in seconds
 def runEvery():
     Timer(20.0, runEvery).start()
     # Class That returns True of the Ip Maching from Interfaces
-    def atStation():
-        IPList = run([getIPv4Address], shell=True, text=True, capture_output=True).stdout.strip().split("\n")
-        ## Debug - prints the list of the IPs from ifconfig command
-        # print(IPList)
-        if (stationIP) in IPList:
-            return True
 
     # Returns 1 if BT Device connected 0 if disconnected
     BT_Connection = run([blueutil_is_connected], shell=True, text=True, capture_output=True).stdout.strip()
