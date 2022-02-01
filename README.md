@@ -1,9 +1,6 @@
-# btConnectBasedOnIP
+# macos-bt-connect-based-on-ip
 
-## PM2 run
+## Function
 
-Exmaple:
+Performers connect/disconnect to bluetooth device based on ip address.
 
-```bash
-pm2 start /Users/fire1ce/projects/btConnectBasedOnIP/btConnect.py --interpreter /Users/fire1ce/.pyenv/shims/python  --log-date-format 'DD-MM HH:mm:ss.SSS'
-```
