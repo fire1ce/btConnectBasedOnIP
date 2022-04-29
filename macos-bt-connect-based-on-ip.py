@@ -4,7 +4,7 @@ from subprocess import run
 # To Find out the Devices ID run: blueutil --connected
 BT_device_ID = "'04-fe-a1-a2-fe-f8'"
 # Must be static IP
-station_IP = ["192.168.100.50", "192.168.150.50"]
+station_IP = ["192.168.100.50", "192.168.150.195"]
 # uses ifconfig to print all the IPV4 Addresses from all the interfaces
 get_IPv4_address = "ifconfig | grep 'inet ' | awk '{print $2}'"
 # blueutil commands
