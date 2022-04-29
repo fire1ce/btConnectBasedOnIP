@@ -17,7 +17,11 @@ print("Started BT-Connect")
 
 
 def at_station():
-    IPList = run([get_IPv4_address], shell=True, text=True, capture_output=True).stdout.strip().split("\n")
+    IPList = (
+        run([get_IPv4_address], shell=True, text=True, capture_output=True)
+        .stdout.strip()
+        .split("\n")
+    )
     ## Debug - prints the list of the IPs from ifconfig command
     # print(IPList)
     for ip in station_IP:
@@ -32,7 +36,9 @@ def runEvery():
     # Class That returns True of the Ip Maching from Interfaces
 
     # Returns 1 if BT Device connected 0 if disconnected
-    BT_Connection = run([blueutil_is_connected], shell=True, text=True, capture_output=True).stdout.strip()
+    BT_Connection = run(
+        [blueutil_is_connected], shell=True, text=True, capture_output=True
+    ).stdout.strip()
     # Sets true/false to "at_stationStatus" every run
     at_stationStatus = at_station()
 
